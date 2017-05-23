@@ -1,0 +1,55 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://metadata.google.internal/computeMetadata/v1/project/project-id
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Metadata-Flavor:
+      - "Google"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/text
+      Date:
+      - Fri, 08 May 2015 10:35:37 GMT
+    body:
+      encoding: UTF-8
+      string: foobar_project
+
+    http_version:
+  recorded_at: Tue, 23 May 2017 04:58:44 GMT
+
+- request:
+    method: get
+    uri: http://metadata.google.internal/computeMetadata/v1/instance/attributes/cluster-name
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Metadata-Flavor:
+      - "Google"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/text
+      Date:
+      - Fri, 08 May 2015 10:35:37 GMT
+    body:
+      encoding: UTF-8
+      string: testing
+
+    http_version:
+  recorded_at: Tue, 23 May 2017 04:58:44 GMT

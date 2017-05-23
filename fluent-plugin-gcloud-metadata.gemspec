@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.version       = '1.0.0'
   s.authors       = ['engerim']
   s.email         = ['alexander.miehe@tourstream.eu']
-  s.description   = %q{gcloud metadata filter plugin for Fluent, which set some record properties}
+  s.description   = %q{gcloud metadata filter plugin for Fluent. The Plugin adds gcloud metadata to the record }
   s.summary       = s.description
   #s.homepage      = 'https://github.com/uken/fluent-plugin-elasticsearch'
   s.license       = 'MIT'

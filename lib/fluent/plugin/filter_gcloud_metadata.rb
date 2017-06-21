@@ -1,10 +1,10 @@
-require 'fluent/filter'
+require 'fluent/plugin/filter'
 require 'net/http'
 require 'uri'
 
-module Fluent
+module Fluent::Plugin
 
-  class GcloudMetadataFilter <  Fluent::Filter
+  class GcloudMetadataFilter <  Filter
     class ConnectionFailure < StandardError; end
     Fluent::Plugin.register_filter('gcloud_metadata', self)
 

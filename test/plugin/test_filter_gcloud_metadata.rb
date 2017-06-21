@@ -1,6 +1,7 @@
 require_relative '../helper'
 require 'test/unit'
 require 'fluent/test'
+require 'fluent/test/driver/filter'
 require 'fluent/plugin/filter_gcloud_metadata'
 require 'vcr'
 
@@ -11,7 +12,6 @@ end
 
 
 class TestGcloudMetadataFilter < Test::Unit::TestCase
-
   def setup
     Fluent::Test.setup
   end
@@ -23,8 +23,8 @@ class TestGcloudMetadataFilter < Test::Unit::TestCase
       </metadata>
     ]
 
-  def create_driver(conf = CONFIG, tag='test.input')
-    Fluent::Test::FilterTestDriver.new(Fluent::GcloudMetadataFilter, tag).configure(conf)
+  def create_driver(conf = CONFIG)
+    Fluent::Test::Driver::Filter.new(Fluent::Plugin::GcloudMetadataFilter).configure(conf)
   end
 
   def test_filter_metadata
@@ -33,13 +33,13 @@ class TestGcloudMetadataFilter < Test::Unit::TestCase
 
     d = create_driver
     VCR.use_cassette('metadata', :allow_unused_http_interactions => false) do
-      d.run do
-        d.filter input
+      d.run(default_tag: "test.input") do
+        d.feed input
       end
     end
     expected = {'message' => 'foobar', 'gce_project' => 'foobar_project', 'environment' => 'testing'}
 
-    assert_equal expected, d.filtered_as_array[0][2]
+    assert_equal expected, d.filtered.map{|e| e.last}.first
   end
 
   def test_filter_metadata_with_cache
@@ -51,15 +51,18 @@ class TestGcloudMetadataFilter < Test::Unit::TestCase
 
     d = create_driver
     VCR.use_cassette('metadata', :allow_unused_http_interactions => false) do
-      d.run do
+      d.run(default_tag: "test.input") do
         inputs.each do |dat|
-          d.filter dat
+          d.feed dat
         end
       end
     end
-    expected = {'message' => 'foobar2', 'gce_project' => 'foobar_project', 'environment' => 'testing'}
+    expected = [
+      {'message' => 'foobar', 'gce_project' => 'foobar_project', 'environment' => 'testing'},
+      {'message' => 'foobar2', 'gce_project' => 'foobar_project', 'environment' => 'testing'}
+    ]
 
-    assert_equal expected, d.filtered_as_array[1][2]
+    assert_equal expected, d.filtered.map{|e| e.last}
   end
 
   def test_filter_return_orignal_record_for_error
@@ -67,12 +70,12 @@ class TestGcloudMetadataFilter < Test::Unit::TestCase
     input = {'message' => 'foobar'}
 
     d = create_driver
-    d.run do
-      d.filter input
+    d.run(default_tag: "test.input") do
+      d.feed input
     end
 
     expected = {'message' => 'foobar'}
 
-    assert_equal expected, d.filtered_as_array[0][2]
+    assert_equal expected, d.filtered.map{|e| e.last}.first
   end
 end

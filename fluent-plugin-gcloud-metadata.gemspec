@@ -3,7 +3,7 @@ $:.push File.expand_path('../lib', __FILE__)
 
 Gem::Specification.new do |s|
   s.name          = 'fluent-plugin-gcloud-metadata'
-  s.version       = '1.0.0'
+  s.version       = '1.0.1'
   s.authors       = ['engerim']
   s.email         = ['alexander.miehe@tourstream.eu']
   s.description   = %q{gcloud metadata filter plugin for Fluent. The Plugin adds gcloud metadata to the record }
@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = Gem::Requirement.new(">= 2.1".freeze)
 
-  s.add_runtime_dependency 'fluentd', '>= 0.14.0'
+  s.add_runtime_dependency 'fluentd', ['>= 0.14.0', '< 2']
 
   s.add_development_dependency 'rake', '~> 0'
   s.add_development_dependency 'webmock', '~> 2.3'

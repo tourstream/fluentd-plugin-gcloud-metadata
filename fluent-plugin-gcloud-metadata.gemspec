@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = Gem::Requirement.new(">= 2.1".freeze)
 
-  s.add_runtime_dependency 'fluentd', '~> 0.14'
+  s.add_runtime_dependency 'fluentd', '>= 0.14.0'
 
   s.add_development_dependency 'rake', '~> 0'
   s.add_development_dependency 'webmock', '~> 2.3'
